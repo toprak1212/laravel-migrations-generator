@@ -74,13 +74,19 @@ class SchemaBlueprint implements WritableBlueprint
      */
     private function getLines(): array
     {
+        
         $schema = $this->connection('Schema', $this->schemaBuilder);
+        $schema = 'Schema::create';
 
         if ($this->schemaBuilder === SchemaBuilder::DROP_IF_EXISTS) {
+
             return $this->getDropLines($schema);
+
         }
 
         $tableLines = $this->getTableLines($schema);
+
+        
 
         if (!app(Setting::class)->isWithHasTable()) {
             return $tableLines;
@@ -110,8 +116,9 @@ class SchemaBlueprint implements WritableBlueprint
      */
     private function getDropLines(string $schema): array
     {
+        // return 'Schema::dropIfExists';
         return [
-            "$schema('$this->table');",
+            "Schema::dropIfExists('$this->table');",
         ];
     }
 
